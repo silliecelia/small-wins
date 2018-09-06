@@ -3,40 +3,46 @@ import {
    Modal,
    Text,
    TouchableHighlight,
+   TouchableOpacity,
    View,
    StyleSheet,
    TextInput,
 } from 'react-native';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 
-
-import LargeAddButton from '../components/LargeAddButton.js';
-
 var radio_props = [
-  {label: '1 point', value: 1 },
-  {label: '10 points', value: 10 }
+  {label: '20 points', value: 20 },
+  {label: '10 points', value: 10 },
+  {label: '5 points', value: 5 }
 ];
+var radio_props_first_index = 0;
 
 
 export default class AddWinModal extends Component {
   constructor(props) {
     super(); 
 
-    // this.state = {
-    //   name: "Enter your win",
-    //   pointValue: 1
-    // }
+    this.state = {
+      name: "",
+      pointValue: radio_props[radio_props_first_index].value
+    }
   }
 
-  // updateName(name) {
-  //   this.setState({name: name}, function(){
-  //     console.log(this.state);
-  //   })
-  // }
+  updateName(name) {
+    this.setState({
+      name: name
+    }, function(){
+      console.log(this.state);
+    });
+  }
 
-  // updatePointValue(value) {
-  //   this.setState({pointValue: value});
-  // }
+  updatePointValue(value) {
+    this.setState({
+      pointValue: value
+    }, function(){
+      console.log(this.state);
+    });
+  }
 
   render() {
     return (
@@ -54,25 +60,32 @@ export default class AddWinModal extends Component {
             </View>
           </View>
 
-         <Text style={styles.headerText}>Add a New Win</Text>
+          <Text style={styles.headerText}>Add a New Win</Text>
 
-         <Text style={styles.titleText}>My win*</Text>
+          <Text style={styles.titleText}>My win*</Text>
          
-         <TextInput style={styles.textField}
-                    onChangeText={(name) => this.updateName(name)}
-                    value={this.state.name} />  
-
+          <TextInput style={styles.textField}
+                    placeholder="Enter your win"
+                    onChangeText={(name) => this.updateName(name)} />  
+{/*
+- why write the CSS under RadioForm?
+- did you mean updateWinPointValue? seems to work for 20 points only though
+- am i not suppoed to write comments between code?
+*/}         
           <View style={styles.pointsContainer}>
             <Text style={styles.titleText}>Points</Text>
             <RadioForm
               radio_props={radio_props}
-              initial={0}
+              initial={radio_props_first_index}
               onPress={(value) => this.updatePointValue(value)}
-            /> 
+              buttonColor={'#CB0019'}
+            />
           </View>    
 
          <View style={styles.LargeAddButtonContainer}>
-          <LargeAddButton/>
+            <TouchableOpacity style={styles.LargeAddButton} onPress={() => this.props.updateWinInfoRef(this.state.name, this.state.pointValue)} >
+               <Text style={styles.LargeAddButtonText}>Add</Text>
+             </TouchableOpacity>
          </View>
         </Modal>
       </View>
@@ -86,6 +99,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       height: '100%'
   },
+  
   pointsContainer: {
     position: 'relative',
     zIndex: 10,
@@ -97,6 +111,22 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       width: '100%',
   },
+  LargeAddButton: {
+      backgroundColor: '#CB0019',
+      width: 335,
+      height: 65,
+      borderRadius: 10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 412
+  },
+
+   LargeAddButtonText: {
+      color: '#ffffff',
+      fontWeight: 'bold',
+      fontSize: 20,
+      lineHeight: 48
+   },
 
    headerText: {
       textAlign: 'center',
@@ -133,7 +163,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-  // radio buttons
-
-  // point tiers
