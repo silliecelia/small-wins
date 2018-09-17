@@ -3,7 +3,8 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    ScrollView
 } from 'react-native';
 import { Button } from "react-native-elements";
 
@@ -20,7 +21,8 @@ export default class Home extends Component {
 			addWinModalOpen: false,
 			newWin: {
 				name: "",
-				pointValue: 0
+				pointValue: 0,
+				winArray:""
 			}
 		}
 		console.log(this.state);
@@ -42,7 +44,6 @@ export default class Home extends Component {
 			addWinModalOpen: false
 		});
 	}
-
 	updateWinInfo(name, value) {
 	  this.setState({
 	  	addWinModalOpen: false,
@@ -54,15 +55,26 @@ export default class Home extends Component {
 	  }, function(){
 	  	console.log(this.state);
 	  });
-
+	}
+    addWin(){
+        if(this.state.newWin.name){
+            this.state.newWin.winArray.push({
+                'win': this.state.newWin.name
+            });
+            this.setState({ winArray: this.state.newWin.winArray });
+            this.setState({ name:''});
+        }
+    }
 	  // this.increment();
 	  // this.hideAddWinModal();
-	}
-
 	render() {
 		// const {achievementCount} = this.state;
+		let wins = this.state.newWin.winArray.map((name, point value)=>{
+            return <Win key={key} keyval={key} val={val}
+                    deleteMethod={()=>this.deleteWin(key)}/>
+        });
 		return (
-			<View style={styles.container}>
+			<ScrollView style={styles.container}>
 				<Text style={styles.score}>{`+${this.state.achievementCount} pts`}</Text>
 				<Text>{this.state.newWin.name}</Text>
 				<Text>{this.state.newWin.pointValue}</Text>
@@ -74,8 +86,8 @@ export default class Home extends Component {
 				</View>
 				<NewWinTest newWinButtonTextRef={this.state.newWin.name}
 							newWinButtonPointsTextRef={this.state.newWin.pointValue} />
-			</View>
 
+			</ScrollView>
 		)
 	}
 }
