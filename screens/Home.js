@@ -10,7 +10,7 @@ import { Button } from "react-native-elements";
 
 import AddButton from '../components/AddButton.js';
 import AddWinModal from '../components/AddWinModal.js';
-import NewWinTest from '../components/NewWinTest.js';
+import NewWin from '../components/NewWin.js';
 
 
 export default class Home extends Component {
@@ -84,7 +84,7 @@ export default class Home extends Component {
 								 hideAddWinModalRef={() => this.hideAddWinModal()}
 								 updateWinInfoRef={(name, value) => this.updateWinInfo(name, value)} />
 				</View>
-				<NewWinTest newWinButtonTextRef={this.state.newWin.name}
+				<NewWin newWinButtonTextRef={this.state.newWin.name}
 							newWinButtonPointsTextRef={this.state.newWin.pointValue} />
 
 			</ScrollView>
