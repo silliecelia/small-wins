@@ -19,10 +19,10 @@ export default class Home extends Component {
 		this.state = {
 			achievementCount: 0,
 			addWinModalOpen: false,
+			winArray: [],
 			newWin: {
 				name: "",
 				pointValue: 0,
-				winArray:""
 			}
 		}
 		console.log(this.state);
@@ -45,8 +45,15 @@ export default class Home extends Component {
 		});
 	}
 	updateWinInfo(name, value) {
+		let updatedWinArray = this.state.winArray;
+		updatedWinArray.push({ 
+	  		name: name,
+			pointValue: value
+		})
+
 	  this.setState({
 	  	addWinModalOpen: false,
+	  	winArray: updatedWinArray,
 	  	newWin: {
 	  		name: name,
 	  		pointValue: value
@@ -56,38 +63,43 @@ export default class Home extends Component {
 	  	console.log(this.state);
 	  });
 	}
-    addWin(){
-        if(this.state.newWin.name){
-            this.state.newWin.winArray.push({
-                'win': this.state.newWin.name
-            });
-            this.setState({ winArray: this.state.newWin.winArray });
-            this.setState({ name:''});
-        }
-    }
 	  // this.increment();
 	  // this.hideAddWinModal();
 	render() {
 		// const {achievementCount} = this.state;
-		let wins = this.state.newWin.winArray.map((name, point value)=>{
-            return <Win key={key} keyval={key} val={val}
-                    deleteMethod={()=>this.deleteWin(key)}/>
+		let wins = this.state.winArray.map((obj, index)=>{
+			return (
+				<View>
+					<Text> {obj.name} </Text>
+					<Text> {obj.pointValue} </Text>
+				</View>
+			)
+            // return <Win key={key} keyval={key} val={val} 
+            //         deleteMethod={()=>this.deleteWin(key)} />
         });
+
 		return (
-			<ScrollView style={styles.container}>
-				<Text style={styles.score}>{`+${this.state.achievementCount} pts`}</Text>
-				<Text>{this.state.newWin.name}</Text>
-				<Text>{this.state.newWin.pointValue}</Text>
+			<View style={styles.container}>
+				<ScrollView>
+					<Text style={styles.score}>{`+${this.state.achievementCount} pts`}</Text>
+					<Text>{this.state.newWin.name}</Text>
+					<Text>{this.state.newWin.pointValue}</Text>
+
+					{this.state.winArray.map((obj, index) => {
+						return (
+							<NewWin key={index} newWinButtonTextRef={obj.name}
+									newWinButtonPointsTextRef={obj.pointValue} />
+			        	)
+					})}
+		        </ScrollView>
 				<View style={styles.addButtonContainer}>
 					<AddButton showAddWinModalRef={() => this.showAddWinModal()} />
 					<AddWinModal addWinModalOpenRef={this.state.addWinModalOpen}
 								 hideAddWinModalRef={() => this.hideAddWinModal()}
 								 updateWinInfoRef={(name, value) => this.updateWinInfo(name, value)} />
 				</View>
-				<NewWin newWinButtonTextRef={this.state.newWin.name}
-							newWinButtonPointsTextRef={this.state.newWin.pointValue} />
-
-			</ScrollView>
+				
+			</View>
 		)
 	}
 }

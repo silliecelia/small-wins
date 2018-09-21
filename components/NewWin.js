@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: 412
   },
 
    NewWinButtonText: {
